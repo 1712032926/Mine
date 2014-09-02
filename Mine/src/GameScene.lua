@@ -24,6 +24,7 @@ function GameScene:init()
     local winSize = cc.Director:getInstance():getVisibleSize()
     local ww  = winSize.width/2;
     local wh  = winSize.height/2;
+    print(winSize.width.."==="..winSize.height)
  --   self._playLayer:setPosition(-ww/2,wh/29)
     
     
