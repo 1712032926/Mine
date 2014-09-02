@@ -13,10 +13,7 @@ LandImage = {}
 --默认方格大小
 GRID_WIDTH = 101
 GRID_HEIGHT = 83
---附近雷最大参数
-MINE_MAX_NUM = 3
---地雷初始个数
-MINE_FIRST_NUM =4
+
 
 --层的标示
 LAYER_MINEFILED = 10
@@ -30,9 +27,15 @@ TOUCH_OFFSET_Y = 4
 
 
 --雷块类型
+
 MINE_MINE   = 1  -- 地雷
 MINE_NORMAL = 2  -- 正常
+MINE_OPEN   = 3  -- 打开
 
+--附近雷最大参数
+MINE_MAX_NUM = 3
+--地雷初始个数
+MINE_FIRST_NUM =4
 
 
 --游戏难度

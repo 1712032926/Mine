@@ -8,9 +8,23 @@ local GlobalModel = class("GlobalModel")
 function GlobalModel:ctor()
 	self._userName = "player"
 	self._level_pass = 1
+	self._table_open = {}
+	self._table_mine = {}
+	self._isFistFind = true
 
 end
 
+
+
+---------------------------
+--@return #bool 检查是否有地雷
+function GlobalModel:checkMine(cl,rw)
+    if self._table_mine[cl..rw]==MINE_MINE then
+        return true
+	else
+	    return false
+	end
+end
 
 
 ---------------------------
@@ -92,7 +106,7 @@ function GlobalModel:layMines(col,row,lv,cr)
         	con = false
         end
         
-        if con then
+        if con==true then
         	local vha = false
             if table_re[scol..srow] then
         		if table_re[scol..srow]~=MINE_MINE then
@@ -101,6 +115,10 @@ function GlobalModel:layMines(col,row,lv,cr)
         	else
                 vha = true
         	end
+            if scol==col and srow==row then
+                vha = false
+            end
+        	
         	
         	if vha == true then
                 local ap = self:checkMineCount(scol,srow,table_re)

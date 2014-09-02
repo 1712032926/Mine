@@ -112,12 +112,33 @@ function ControllerLayer:init(layer)
         if self._touchState==CONTROLLED_CLICK then
             local mineFile = self._layer:getChildByTag(LAYER_MINEFILED)
             --获取点击的雷块
-            local block = self:getBlock_Touch(touch,type)
+            local block,col,row= self:getBlock_Touch(touch,type)
             if block then
-            	block:openBlock()
+            	
+                globalModel._table_open[col..row] = MINE_OPEN
+            	
+            	if globalModel._isFistFind then
+                    globalModel._table_mine= mineFile:initMine(col,row)
+            		globalModel._isFistFind = false
+            		
+                    for key, value in pairs(globalModel._table_mine) do
+                        local temp =mineFile:getMineBlockByName(key)
+                        if temp then
+            				temp:changeBlock(2)
+            			end
+            		end
+            		
+            		
+            	end
+            	
                 local num = globalModel:checkMineCount(block._col,block._row,mineFile._table_mine)
-                print("周围有"..num.."个地雷")
-                local ns = 1
+               
+                if globalModel:checkMine(col,row) then
+                    print("这是地雷,爆炸拉")
+                else
+                    block:openBlock()
+                    print("周围有"..num.."个地雷")
+                end
             end
           --  block:setVisible(false)
         else

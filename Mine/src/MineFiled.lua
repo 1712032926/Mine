@@ -41,7 +41,7 @@ function MineFiled:init(lv,cr,type,table_data)
     self._type = type or 3
     self._table_block = table_data or {}
     self._cr = cr
-    
+    self._level=lv
     for i=1, self._col do
     	for j=1, self._row+1 do
     		local sp = cc.Sprite:create("land/bottomLand.png")
@@ -64,6 +64,16 @@ end
 
 
 
+---------------------------
+--@return #table 第一次点击初始化地雷
+function MineFiled:initMine(col,row)
+	
+    local count,tableMine = globalModel:layMines(0,0,self._level,self._cr)
+    self._table_mine = tableMine
+    self._MineCount = count
+	
+    return tableMine
+end
 
 
 ---------------------------
@@ -77,10 +87,7 @@ function MineFiled:createNewFiled(lv)
     local mWidth=0
     local mHeight=0
     
-    local count,tableMine = globalModel:layMines(0,0,lv,self._cr)
-    self._table_mine = tableMine
-    self._MineCount = count
-    
+   
     for i=0, self._col-1 do
         mHeight = 0
         for j=0, self._row-1 do
@@ -143,6 +150,13 @@ function MineFiled:getMineBlock(col,row)
 	
 end
 
+
+---------------------------
+--@return #Node 获取雷块
+function MineFiled:getMineBlockByName(na)
+    return self:getChildByName(na)
+
+end
 
 
 

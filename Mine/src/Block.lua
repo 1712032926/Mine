@@ -25,6 +25,7 @@ function Block:init(layer,bType)
     local bl = cc.Sprite:create(BlockImage[imagestr])
 	self:addChild(bl)
 	bl:setTag(100)
+	
 	--bl:setAnchorPoint(0.5,0.5)
 	local acpoint = bl:getAnchorPoint();
 	
@@ -48,6 +49,19 @@ function Block:init(layer,bType)
 	--self:scheduleUpdateWithPriorityLua(update,0)
 end
 
+
+---------------------------
+--@return #nil 替换
+function Block:changeBlock(type)
+    --local sp = self:getChildByTag(100)
+    self:removeChildByTag(100,true)
+    local imagestr = BlockType[type]
+    local bl = cc.Sprite:create(BlockImage[imagestr])
+    self:addChild(bl)
+    bl:setTag(100)
+    
+	
+end
 
 
 ---------------------------
