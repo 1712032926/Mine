@@ -78,18 +78,15 @@ function MineFiled:createNewFiled(lv)
     
     local count,tableMine = globalModel:layMines(0,0,lv,self._cr)
     self._table_mine = tableMine
+    self._MineCount = count
     
     for i=0, self._col-1 do
         mHeight = 0
         for j=0, self._row-1 do
         local bl = block.new()
         
-        if tableMine[i..j]==MINE_MINE then
-            bl:init(self,2)
-        else
-            bl:init(self,self._type)
-        end
-        
+
+        bl:init(self,self._type)
         
        
         bl:setColRow(i,j)

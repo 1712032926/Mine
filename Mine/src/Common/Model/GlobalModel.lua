@@ -76,7 +76,7 @@ end
 function GlobalModel:layMines(col,row,lv,cr)
 
     local table_re = {}
-    local count = math.modf(self:calculateMineCount(lv+4,cr))
+    local count = math.modf(self:calculateMineCount(lv+MINE_FIRST_NUM,cr))
     local mcol = lv+MINE_FIRST_NUM
     local mrow = lv+MINE_FIRST_NUM
     --随机种子
