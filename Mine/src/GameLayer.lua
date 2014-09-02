@@ -22,7 +22,7 @@ function GameLayer:init()
 	
 	--创建雷地
 	local mineFile = require("MineFiled").new()
-	mineFile:init(100,LEVEL_SIMPLE,1) 
+	mineFile:init(3,LEVEL_SIMPLE,1) 
 	
 	self:addChild(mineFile)
     mineFile:setTag(LAYER_MINEFILED) --设置标示
