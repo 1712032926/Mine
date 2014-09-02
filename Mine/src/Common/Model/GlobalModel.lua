@@ -8,8 +8,7 @@ local GlobalModel = class("GlobalModel")
 function GlobalModel:ctor()
 	self._userName = "player"
 	self._level_pass = 1
-	
-	
+
 end
 
 

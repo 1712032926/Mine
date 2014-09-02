@@ -23,10 +23,13 @@ function MineFiled:ctor()
 	self._MineCount=0
 	self._landBatchNode = cc.SpriteBatchNode:create("land/bottomLand.png",50)
 	self:addChild(self._landBatchNode)
-
+	self._isFirst = true
 
 	
 end
+
+
+
 
 
 ---------------------------
@@ -57,11 +60,9 @@ function MineFiled:init(lv,cr,type,table_data)
     end
     
 
-    
-
-    
-
 end
+
+
 
 
 
@@ -83,26 +84,27 @@ function MineFiled:createNewFiled(lv)
     for i=0, self._col-1 do
         mHeight = 0
         for j=0, self._row-1 do
-        local bl = block.new()
         
+        if self._table_block[i..j] then
+        	
+        else
+                local bl = block.new()
+                bl:init(self,self._type)
+                bl:setColRow(i,j)
+                local psize = bl:getContentSize()
+                print(psize.width)
+                bl:setPos(i*GRID_WIDTH+psize.width,j*GRID_HEIGHT+psize.height)
+                self:addChild(bl)
+                bl:setName(i..j)
+                mHeight =mHeight+GRID_HEIGHT	
+        end
 
-        bl:init(self,self._type)
-        
-       
-        bl:setColRow(i,j)
-        local psize = bl:getContentSize()
-        print(psize.width)
-        bl:setPos(i*GRID_WIDTH+psize.width,j*GRID_HEIGHT+psize.height)
-        self:addChild(bl)
-        bl:setName(i..j)
-        
-        mHeight =mHeight+GRID_HEIGHT
         end
         mWidth = mWidth+GRID_WIDTH
     end
 	self:setContentSize(mWidth,mHeight)
 	--布置雷区
-	self._table_block ={}
+	--self._table_block ={}
 	
     -- math.randomseed(tostring(os.time()):reverse():sub(1, 6))
     --  local co = math.random(0,ico-1)
@@ -136,7 +138,7 @@ end
 
 ---------------------------
 --@return #Node 获取雷块
-function MineFiled:getMineBlock(row,col)
+function MineFiled:getMineBlock(col,row)
     return self:getChildByName(col..row)
 	
 end

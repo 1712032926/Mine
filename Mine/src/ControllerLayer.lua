@@ -175,9 +175,9 @@ function ControllerLayer:getBlock_Touch(touch,type)
    -- print("Pos".. math.modf(vkpos.x)..":".. math.modf(vkpos.y).."Block  ".."Col:"..col.."  Row:"..row)
     --  print(row)
     --local block = require("Block").new()
-    local block = mineFile:getMineBlock(row,col)
+    local block = mineFile:getMineBlock(col,row)
    -- block:setVisible(false)
-    return block
+    return block,col,row
 end
 
 
