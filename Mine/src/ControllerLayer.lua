@@ -137,6 +137,7 @@ function ControllerLayer:init(layer)
                     print("这是地雷,爆炸拉")
                 else
                     block:openBlock()
+                    block:setMineNum(num)
                     print("周围有"..num.."个地雷")
                 end
             end

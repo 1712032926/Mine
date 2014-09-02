@@ -75,6 +75,19 @@ function Block:openBlock()
 end
 
 
+
+---------------------------
+--@return #nil 设置周围拥有地雷得数字
+function Block:setMineNum(num)
+    local spn = string.format("land/count%d.png",num)
+    
+    local sp = cc.Sprite:create(spn)
+	self:addChild(sp)
+	sp:setName("numsp")
+	
+end
+
+
 ---------------------------
 --@return #nil 设置行列
 function Block:setColRow(col,row)
