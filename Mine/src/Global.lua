@@ -13,6 +13,10 @@ LandImage = {}
 --默认方格大小
 GRID_WIDTH = 101
 GRID_HEIGHT = 83
+--附近雷最大参数
+MINE_MAX_NUM = 3
+--地雷初始个数
+MINE_FIRST_NUM =4
 
 --层的标示
 LAYER_MINEFILED = 10

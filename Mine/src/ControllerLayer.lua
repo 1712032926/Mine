@@ -90,7 +90,7 @@ function ControllerLayer:init(layer)
             	
                 self._touchState = CONTROLLED_CLICK
             else
-                print("移动")
+             --   print("移动")
                 self._layer:setPosition(cx+dx,cy+dy)
                 touchBeginPoint = {x=location.x,y=location.y}
             end
@@ -172,7 +172,7 @@ function ControllerLayer:getBlock_Touch(touch,type)
     local col =math.abs(math.modf((vkpos.x+mx)/GRID_WIDTH))
     local row = math.abs(math.modf((vkpos.y-GRID_HEIGHT/2+my)/GRID_HEIGHT))
     
-    print("Pos".. math.modf(vkpos.x)..":".. math.modf(vkpos.y).."Block  ".."Col:"..col.."  Row:"..row)
+   -- print("Pos".. math.modf(vkpos.x)..":".. math.modf(vkpos.y).."Block  ".."Col:"..col.."  Row:"..row)
     --  print(row)
     --local block = require("Block").new()
     local block = mineFile:getMineBlock(row,col)

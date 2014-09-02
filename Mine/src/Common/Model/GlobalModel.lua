@@ -60,6 +60,11 @@ function GlobalModel:checkMineCount(cl,rw,table_data)
         if key == (m..n)and value == MINE_MINE then
             p=p+1
         end
+        m=cl
+        n=rw
+        if key == (m..n)and value == MINE_MINE then
+            p=p+1
+        end
     end
     return p
 	
@@ -72,8 +77,8 @@ function GlobalModel:layMines(col,row,lv,cr)
 
     local table_re = {}
     local count = math.modf(self:calculateMineCount(lv+4,cr))
-    local mcol = lv+4
-    local mrow = lv+4
+    local mcol = lv+MINE_FIRST_NUM
+    local mrow = lv+MINE_FIRST_NUM
     --随机种子
     math.randomseed(tostring(os.time()):reverse():sub(1, 6))
     local scol=0
@@ -100,7 +105,7 @@ function GlobalModel:layMines(col,row,lv,cr)
         	
         	if vha == true then
                 local ap = self:checkMineCount(scol,srow,table_re)
-                if ap<=4  then
+                if ap<=MINE_MAX_NUM  then
                     table_re[scol..srow] =MINE_MINE
                     index = index +1
                 else
