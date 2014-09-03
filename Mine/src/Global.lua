@@ -42,13 +42,36 @@ MINE_FIRST_NUM =4
 LEVEL_SIMPLE     = 4 -- 简单
 LEVEL_NORMAL     = 3 -- 正常
 LEVEL_HARD       = 2 -- 困难
-LEVEL_VERYHARD   = 1 -- 非常难
+LEVEL_VERYHARD   = 1 -- 非常难(基本不能用，最大难度)
 
+--[[
+---------------------------
+--@return #nil 计算地雷数量
+function MineFiled:calculateMineCount(m,n)
+local sum = PARAMETER_MINE_A*m*m-PARAMETER_MINE_B*m+PARAMETER_MINE_C
+return sum/n
+end
 
+m代表行列数
+n代表难度   LEVEL_SIMPLE  LEVEL_NORMAL LEVEL_HARD LEVEL_VERYHARD
+--]]
 --布雷基本参数
 PARAMETER_MINE_A = 0.5871
 PARAMETER_MINE_B = 0.8886
 PARAMETER_MINE_C = 1.1833
 
+
+--是否调试模式
+isDebug = true
+
+
+---------------------------
+--@return #nil 打印
+function logDebug(st)
+    if isDebug then
+        print(st)
+    end
+	
+end
 
 

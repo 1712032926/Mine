@@ -36,12 +36,23 @@ end
 --@return #nil 初始化
 function MineFiled:init(lv,cr,type,table_data)
 
-    self._col = lv+4
-    self._row = lv+4
+    self._col = lv+MINE_FIRST_NUM
+    self._row = lv+MINE_FIRST_NUM
     self._type = type or 3
     self._table_block = table_data or {}
     self._cr = cr
     self._level=lv
+    
+    local vs = 10
+    local vk = (lv+MINE_FIRST_NUM)%2
+    if vk~=0 then
+    	vs = 11
+    end
+  --  print("等级"..lv.."  创建"..self._col.."*"..self._row.."雷区，".."以"..vs.."为单位，划分地形")
+    logDebug("等级"..lv.."  创建"..self._col.."*"..self._row.."雷区，".."以"..vs.."为单位，划分地形")
+    
+    
+    --创建底层地块
     for i=1, self._col do
     	for j=1, self._row+1 do
     		local sp = cc.Sprite:create("land/bottomLand.png")
@@ -58,7 +69,7 @@ function MineFiled:init(lv,cr,type,table_data)
     else
         self:createNewFiled(lv)
     end
-    
+    self:setContentSize(GRID_WIDTH*self._col,self._row*GRID_HEIGHT)
 
 end
 
@@ -84,8 +95,8 @@ function MineFiled:createNewFiled(lv)
 --	self._MineCount = self:calculateMineCount
 	local mc=self._MineCount 
     local block = require("Block")
-    local mWidth=0
-    local mHeight=0
+   -- local mWidth=0
+   -- local mHeight=0
     
    
     for i=0, self._col-1 do
@@ -103,13 +114,14 @@ function MineFiled:createNewFiled(lv)
                 bl:setPos(i*GRID_WIDTH+psize.width,j*GRID_HEIGHT+psize.height)
                 self:addChild(bl)
                 bl:setName(i..":"..j)
-                mHeight =mHeight+GRID_HEIGHT	
+              --  mHeight =mHeight+GRID_HEIGHT	
         end
 
         end
-        mWidth = mWidth+GRID_WIDTH
+       -- mWidth = mWidth+GRID_WIDTH
     end
-	self:setContentSize(mWidth,mHeight)
+	--self:setContentSize(mWidth,mHeight)
+   
 	--布置雷区
 	--self._table_block ={}
 	
