@@ -2,8 +2,8 @@
   "init_cfg": {
     "isLandscape": false,
     "name": "Bomb",
-    "width": 960,
-    "height": 640,
+    "width": 480,
+    "height": 320,
     "entry": "src/main.lua",
     "consolePort": 6010,
     "debugPort": 10000,
