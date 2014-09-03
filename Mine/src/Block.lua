@@ -68,6 +68,7 @@ end
 --@return #type 打开雷块，返回雷块的类型
 function Block:openBlock()
 	local sp = self:getChildByTag(100)
+	print(self._col.."===="..self._row)
 	if sp then
 		sp:setVisible(false)
 	end
@@ -91,6 +92,9 @@ end
 ---------------------------
 --@return #nil 设置行列
 function Block:setColRow(col,row)
+    if col==11 and row == 1 then
+    	print("找到了 11：1")
+    end
 	self._col = col
 	self._row = row
 end

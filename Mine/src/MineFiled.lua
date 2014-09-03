@@ -68,7 +68,7 @@ end
 --@return #table 第一次点击初始化地雷
 function MineFiled:initMine(col,row)
 	
-    local count,tableMine = globalModel:layMines(0,0,self._level,self._cr)
+    local count,tableMine = globalModel:layMines(col,row,self._level,self._cr)
     self._table_mine = tableMine
     self._MineCount = count
 	
@@ -92,17 +92,17 @@ function MineFiled:createNewFiled(lv)
         mHeight = 0
         for j=0, self._row-1 do
         
-        if self._table_block[i..j] then
+        if self._table_block[i..":"..j] then
         	
         else
                 local bl = block.new()
                 bl:init(self,self._type)
                 bl:setColRow(i,j)
                 local psize = bl:getContentSize()
-                print(psize.width)
+                --print(psize.width)
                 bl:setPos(i*GRID_WIDTH+psize.width,j*GRID_HEIGHT+psize.height)
                 self:addChild(bl)
-                bl:setName(i..j)
+                bl:setName(i..":"..j)
                 mHeight =mHeight+GRID_HEIGHT	
         end
 
@@ -129,7 +129,7 @@ end
 ---------------------------
 --@return #nil 计算地雷数量
 function MineFiled:calculateMineCount(m,n)
-	local sum = 0.5871*m*m-0.8886*m+1.1833
+    local sum = PARAMETER_MINE_A*m*m-PARAMETER_MINE_B*m+PARAMETER_MINE_C
 	return sum/n
 end
 
@@ -146,7 +146,7 @@ end
 ---------------------------
 --@return #Node 获取雷块
 function MineFiled:getMineBlock(col,row)
-    return self:getChildByName(col..row)
+    return self:getChildByName(col..":"..row)
 	
 end
 

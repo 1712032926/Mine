@@ -113,6 +113,7 @@ function ControllerLayer:init(layer)
             local mineFile = self._layer:getChildByTag(LAYER_MINEFILED)
             --获取点击的雷块
             local block,col,row= self:getBlock_Touch(touch,type)
+            print("点击的雷块坐标 "..block._col..":"..block._row)
             if block then
             	
                 globalModel._table_open[col..row] = MINE_OPEN
@@ -131,9 +132,13 @@ function ControllerLayer:init(layer)
             		
             	end
             	
-                local num = globalModel:checkMineCount(block._col,block._row,mineFile._table_mine)
-               
-                if globalModel:checkMine(col,row) then
+
+            	
+            	
+            	
+                local num = globalModel:checkMineCount(col,row,mineFile._table_mine)
+                print("打开..."..col..":"..row.."位置")
+                if globalModel:checkMine(col,row)==true then
                     print("这是地雷,爆炸拉")
                 else
                     block:openBlock()

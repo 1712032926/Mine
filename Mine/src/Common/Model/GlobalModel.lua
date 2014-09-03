@@ -19,7 +19,7 @@ end
 ---------------------------
 --@return #bool 检查是否有地雷
 function GlobalModel:checkMine(cl,rw)
-    if self._table_mine[cl..rw]==MINE_MINE then
+    if self._table_mine[cl..":"..rw]==MINE_MINE then
         return true
 	else
 	    return false
@@ -35,47 +35,47 @@ function GlobalModel:checkMineCount(cl,rw,table_data)
     for key, value in pairs(table_data) do
         m =cl-1
         n =rw-1
-        if key == (m..n) and value == MINE_MINE then
+        if key == (m..":"..n) and value == MINE_MINE then
             p=p+1
         end
         m=cl-1
         n=rw
-        if key == (m..n)and value == MINE_MINE then
+        if key == (m..":"..n)and value == MINE_MINE then
             p=p+1
         end
         m=cl-1
         n=rw+1
-        if key == (m..n)and value == MINE_MINE then
+        if key == (m..":"..n)and value == MINE_MINE then
             p=p+1
         end
         m=cl
         n=rw-1
-        if key == (m..n)and value == MINE_MINE then
+        if key == (m..":"..n)and value == MINE_MINE then
             p=p+1
         end
         m=cl
         n=rw+1
-        if key == (m..n)and value == MINE_MINE then
+        if key == (m..":"..n)and value == MINE_MINE then
             p=p+1
         end
         m=cl+1
         n=rw-1
-        if key == (m..n)and value == MINE_MINE then
+        if key == (m..":"..n)and value == MINE_MINE then
             p=p+1
         end
         m=cl+1
         n=rw
-        if key == (m..n)and value == MINE_MINE then
+        if key == (m..":"..n)and value == MINE_MINE then
             p=p+1
         end
         m=cl+1
         n=rw+1
-        if key == (m..n)and value == MINE_MINE then
+        if key == (m..":"..n)and value == MINE_MINE then
             p=p+1
         end
         m=cl
         n=rw
-        if key == (m..n)and value == MINE_MINE then
+        if key == (m..":"..n)and value == MINE_MINE then
             p=p+1
         end
     end
@@ -104,29 +104,31 @@ function GlobalModel:layMines(col,row,lv,cr)
         srow = math.random(0,mrow-1)
         if scol==col and srow==row then
         	con = false
+            if table_re[scol..":"..srow] then
+                table_re[scol..":"..srow] = nil
+                index = index -1
+        	end
         end
         
         if con==true then
         	local vha = false
-            if table_re[scol..srow] then
-        		if table_re[scol..srow]~=MINE_MINE then
+            if table_re[scol..":"..srow] then
+                if table_re[scol..":"..srow]~=MINE_MINE then
         			vha = true
         		end
         	else
                 vha = true
         	end
-            if scol==col and srow==row then
-                vha = false
-            end
+
         	
         	
         	if vha == true then
                 local ap = self:checkMineCount(scol,srow,table_re)
                 if ap<=MINE_MAX_NUM  then
-                    table_re[scol..srow] =MINE_MINE
+                    table_re[scol..":"..srow] =MINE_MINE
                     index = index +1
                 else
-                    table_re[scol..srow] =MINE_NORMAL
+                    table_re[scol..":"..srow] =nil
                     index = index -1
                 end
                 
