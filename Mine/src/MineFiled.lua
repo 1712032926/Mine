@@ -43,11 +43,13 @@ function MineFiled:init(lv,cr,type,table_data)
     self._cr = cr
     self._level=lv
     
-    local vs = 10
+    local vs = MINE_EVEN_NUM
     local vk = (lv+MINE_FIRST_NUM)%2
     if vk~=0 then
-    	vs = 11
+        vs = MINE_ODD_NUM
     end
+    
+    
   --  print("等级"..lv.."  创建"..self._col.."*"..self._row.."雷区，".."以"..vs.."为单位，划分地形")
     logDebug("等级"..lv.."  创建"..self._col.."*"..self._row.."雷区，".."以"..vs.."为单位，划分地形")
     
