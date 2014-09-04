@@ -7,7 +7,7 @@ local MineFiled = class("MineFiled",function ()
 	return cc.Node:create()
 end)
 
-
+local scheduler = cc.Director:getInstance():getScheduler()
 
 ---------------------------
 --@return #nil 构造
@@ -84,13 +84,18 @@ function MineFiled:init(lv,cr,type,table_data)
     end
     self:setContentSize(GRID_WIDTH*self._col,self._row*GRID_HEIGHT)
     
-    
-    
-    
+  --  scheduler:scheduleScriptFunc(self.updateMine,0.5,false)
     
 end
 
 
+
+---------------------------
+--@return #nil 判断位置
+function MineFiled:updateMine(dt)
+	print("aaaaaaaa")
+
+end
 
 ---------------------------
 --@return #table 第一次点击初始化地雷
