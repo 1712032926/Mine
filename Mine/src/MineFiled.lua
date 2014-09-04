@@ -47,13 +47,18 @@ function MineFiled:init(lv,cr,type,table_data)
     self._mWidth =0
     self._mHeight = 0
    
-    local vk = (lv+MINE_FIRST_NUM)%2
-    if vk~=0 then
-        self._regionSize = MINE_ODD_NUM
-    
-    else
-        self._regionSize = MINE_EVEN_NUM
+    if (lv+MINE_FIRST_NUM)>10 then
+        local vk = (lv+MINE_FIRST_NUM)%2
+        if vk~=0 then
+            self._regionSize = MINE_ODD_NUM
+
+        else
+            self._regionSize = MINE_EVEN_NUM
+        end
+   	else
+        self._regionSize = (lv+MINE_FIRST_NUM)
     end
+
     
     
     --  print("等级"..lv.."  创建"..self._col.."*"..self._row.."雷区，".."以"..self._regionSize.."为单位，划分地形")
@@ -112,11 +117,11 @@ function MineFiled:createNewFiled(lv)
     local mWidth=0
     local mHeight=0
     
-    
+    local ostar_i = (self._col-self._regionSize)/2
    
-    for i=0, self._col-1 do
+    for i=ostar_i, self._regionSize-1+ostar_i do
         mHeight = 0
-        for j=0, self._row-1 do
+        for j=ostar_i, self._regionSize-1+ostar_i do
         
         if self._table_block[i..":"..j] then
         	
@@ -139,14 +144,16 @@ function MineFiled:createNewFiled(lv)
     self._mWidth = mWidth
     self._mHeight = mHeight
 	--self:setContentSize(mWidth,mHeight)
-   
 	--布置雷区
 	--self._table_block ={}
-	
     -- math.randomseed(tostring(os.time()):reverse():sub(1, 6))
     --  local co = math.random(0,ico-1)    
 
 end
+
+
+
+
 
 
 

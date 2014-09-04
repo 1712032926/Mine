@@ -22,7 +22,7 @@ function GameLayer:init()
 	
 	--创建雷地
 	local mineFile = require("MineFiled").new()
-    mineFile:init(2,LEVEL_SIMPLE,1) 
+    mineFile:init(14,LEVEL_SIMPLE,1) 
 	
 	self:addChild(mineFile)
     mineFile:setTag(LAYER_MINEFILED) --设置标示
@@ -41,7 +41,7 @@ function GameLayer:init()
     local ksw = mineSize.width * scaleFactor
     local ksh = mineSize.height * scaleFactor
     ksw = (layerSize.width - ksw)/2
-    ksh = (layerSize.height - ksh)/3
+    ksh = (layerSize.height - ksh)/2
 	
 	--设置位置
     self:setPosition(ksw,ksh)
