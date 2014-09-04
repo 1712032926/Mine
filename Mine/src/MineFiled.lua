@@ -154,13 +154,6 @@ end
 
 
 
-
-
-
-
-
-
-
 ---------------------------
 --@return #nil 计算地雷数量
 function MineFiled:calculateMineCount(m,n)
