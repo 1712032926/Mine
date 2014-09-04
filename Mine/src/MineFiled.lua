@@ -24,6 +24,8 @@ function MineFiled:ctor()
 	self._landBatchNode = cc.SpriteBatchNode:create("land/bottomLand.png",50)
 	self:addChild(self._landBatchNode)
 	self._isFirst = true
+    self._regionSize = MINE_EVEN_NUM
+	
 
 	
 end
@@ -44,15 +46,18 @@ function MineFiled:init(lv,cr,type,table_data)
     self._level=lv
     self._mWidth =0
     self._mHeight = 0
-    local vs = MINE_EVEN_NUM
+   
     local vk = (lv+MINE_FIRST_NUM)%2
     if vk~=0 then
-        vs = MINE_ODD_NUM
+        self._regionSize = MINE_ODD_NUM
+    
+    else
+        self._regionSize = MINE_EVEN_NUM
     end
     
     
-  --  print("等级"..lv.."  创建"..self._col.."*"..self._row.."雷区，".."以"..vs.."为单位，划分地形")
-    logDebug("等级"..lv.."  创建"..self._col.."*"..self._row.."雷区，".."以"..vs.."为单位，划分地形")
+    --  print("等级"..lv.."  创建"..self._col.."*"..self._row.."雷区，".."以"..self._regionSize.."为单位，划分地形")
+    logDebug("等级"..lv.."  创建"..self._col.."*"..self._row.."雷区，".."以"..self._regionSize.."为单位，划分地形")
     
     
     --创建底层地块
@@ -73,7 +78,11 @@ function MineFiled:init(lv,cr,type,table_data)
         self:createNewFiled(lv)
     end
     self:setContentSize(GRID_WIDTH*self._col,self._row*GRID_HEIGHT)
-
+    
+    
+    
+    
+    
 end
 
 
@@ -85,6 +94,8 @@ function MineFiled:initMine(col,row)
     local count,tableMine = globalModel:layMines(col,row,self._level,self._cr)
     self._table_mine = tableMine
     self._MineCount = count
+	
+	logDebug("有"..count.."个炸弹")
 	
     return tableMine
 end
@@ -101,10 +112,11 @@ function MineFiled:createNewFiled(lv)
     local mWidth=0
     local mHeight=0
     
+    
    
-    for i=4, self._col-7 do
+    for i=0, self._col-1 do
         mHeight = 0
-        for j=4, self._row-7 do
+        for j=0, self._row-1 do
         
         if self._table_block[i..":"..j] then
         	
@@ -132,9 +144,7 @@ function MineFiled:createNewFiled(lv)
 	--self._table_block ={}
 	
     -- math.randomseed(tostring(os.time()):reverse():sub(1, 6))
-    --  local co = math.random(0,ico-1)
-
-	
+    --  local co = math.random(0,ico-1)    
 
 end
 

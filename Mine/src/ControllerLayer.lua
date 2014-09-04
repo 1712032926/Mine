@@ -135,7 +135,7 @@ function ControllerLayer:init(layer)
             	
 
             	
-            	
+               -- globalModel._table_mine= mineFile:initMine(col,row)
             	
                 local num = globalModel:checkMineCount(col,row,mineFile._table_mine)
                 logDebug("打开..."..col..":"..row.."位置")

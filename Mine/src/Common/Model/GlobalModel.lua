@@ -149,7 +149,7 @@ end
 ---------------------------
 --@return #nil 计算地雷数量 m代表行列数 n代表难度
 function GlobalModel:calculateMineCount(m,n)
-    local sum = PARAMETER_MINE_A*m*m-PARAMETER_MINE_B*m+PARAMETER_MINE_C
+    local sum = math.ceil(PARAMETER_MINE_A*m*m-PARAMETER_MINE_B*m+PARAMETER_MINE_C)
     return sum/n
 end
 
