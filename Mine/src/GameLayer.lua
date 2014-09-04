@@ -50,6 +50,17 @@ function GameLayer:init()
 end
 
 
+
+---------------------------
+--@return #nil 移动
+function GameLayer:moveMap(dx,dy)
+	self:setPosition(dx,dy)
+    local mineFile = self:getChildByTag(LAYER_MINEFILED)
+	
+	
+end
+
+
 ---------------------------
 --@return #number 获取行
 function GameLayer:getCol()
