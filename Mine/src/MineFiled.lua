@@ -42,7 +42,8 @@ function MineFiled:init(lv,cr,type,table_data)
     self._table_block = table_data or {}
     self._cr = cr
     self._level=lv
-    
+    self._mWidth =0
+    self._mHeight = 0
     local vs = MINE_EVEN_NUM
     local vk = (lv+MINE_FIRST_NUM)%2
     if vk~=0 then
@@ -97,13 +98,13 @@ function MineFiled:createNewFiled(lv)
 --	self._MineCount = self:calculateMineCount
 	local mc=self._MineCount 
     local block = require("Block")
-   -- local mWidth=0
-   -- local mHeight=0
+    local mWidth=0
+    local mHeight=0
     
    
-    for i=0, self._col-1 do
+    for i=4, self._col-7 do
         mHeight = 0
-        for j=0, self._row-1 do
+        for j=4, self._row-7 do
         
         if self._table_block[i..":"..j] then
         	
@@ -116,12 +117,15 @@ function MineFiled:createNewFiled(lv)
                 bl:setPos(i*GRID_WIDTH+psize.width,j*GRID_HEIGHT+psize.height)
                 self:addChild(bl)
                 bl:setName(i..":"..j)
-              --  mHeight =mHeight+GRID_HEIGHT	
+                mHeight =mHeight+GRID_HEIGHT	
         end
 
         end
-       -- mWidth = mWidth+GRID_WIDTH
+        mWidth = mWidth+GRID_WIDTH
     end
+    
+    self._mWidth = mWidth
+    self._mHeight = mHeight
 	--self:setContentSize(mWidth,mHeight)
    
 	--布置雷区
