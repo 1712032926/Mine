@@ -1,7 +1,7 @@
 --控制层
 
 require("Cocos2d")
-require("Global")
+require("Common/Global")
 require("Common/Model/ModelManager")
 
 

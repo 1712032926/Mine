@@ -1,4 +1,4 @@
-require("Global")
+require("Common/Global")
 
 local FunctionUtil = class("FunctionUtil")
 

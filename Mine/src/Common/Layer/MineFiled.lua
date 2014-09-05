@@ -1,6 +1,6 @@
 --雷区 放置炸弹和方块
 
-require("Global")
+require("Common/Global")
 require("Common/Model/ModelManager")
 require("Utils/UtilManager")
 
@@ -128,7 +128,7 @@ function MineFiled:createNewFiled(lv)
 	--生成方块
 --	self._MineCount = self:calculateMineCount
 	local mc=self._MineCount 
-    local block = require("Block")
+    local block = require("Common/Layer/Block")
     local mWidth=0
     local mHeight=0
     

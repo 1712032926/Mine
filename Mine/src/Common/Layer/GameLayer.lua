@@ -1,5 +1,5 @@
 require "Cocos2d"
-require("Global")
+require("Common/Global")
 local GameLayer = class("GameLayer",function ()
 	return cc.Layer:create()
 end)
@@ -18,12 +18,12 @@ end
 ---------------------------
 --@return #void 初始化
 function GameLayer:init()
-	local block = require("Block")
+	local block = require("Common/Layer/Block")
 	
 	local scaleFactor = 1
 	
 	--创建雷地
-	local mineFile = require("MineFiled").new()
+	local mineFile = require("src/Common/Layer/MineFiled").new()
     mineFile:init(10,LEVEL_SIMPLE,1) 
 	
 	self:addChild(mineFile)
