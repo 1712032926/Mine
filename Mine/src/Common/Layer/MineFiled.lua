@@ -26,7 +26,8 @@ function MineFiled:ctor()
 	self:addChild(self._landBatchNode)
 	self._isFirst = true
     self._regionSize = MINE_EVEN_NUM
-	
+    self._Mark_X =0
+    self._Mark_Y = 0
 
 	
 end
@@ -132,7 +133,7 @@ function MineFiled:createNewFiled(lv)
     local mWidth=0
     local mHeight=0
     
-    local ostar_i = (self._col-self._regionSize)/2
+    local ostar_i = math.floor((self._col-self._regionSize)/2)
    
     for i=ostar_i, self._regionSize-1+ostar_i do
         mHeight = 0
@@ -174,11 +175,20 @@ function MineFiled:createNewFiled(lv)
     
     self._mWidth = mWidth
     self._mHeight = mHeight
+    
+
+    local startX,startY = functionUtil:tileToPos(ostar_i,ostar_i)
+    logDebug("初始的生成位置X:"..startX..": Y:"..startY)
+    self._Mark_X =startX
+    self._Mark_Y = startY
+    --self:convertToWorldSpace(cc.p(startX,startY))
 	--self:setContentSize(mWidth,mHeight)
 	--布置雷区
 	--self._table_block ={}
     -- math.randomseed(tostring(os.time()):reverse():sub(1, 6))
-    --  local co = math.random(0,ico-1)    
+    --  local co = math.random(0,ico-1)
+    
+        
 
 end
 
