@@ -2,6 +2,7 @@
 
 require("Global")
 require("Common/Model/ModelManager")
+require("Utils/UtilManager")
 
 local MineFiled = class("MineFiled",function ()
 	return cc.Node:create()
@@ -146,6 +147,22 @@ function MineFiled:createNewFiled(lv)
                 local psize = bl:getContentSize()
                 --print(psize.width)
                 bl:setPos(i*GRID_WIDTH+psize.width,j*GRID_HEIGHT+psize.height)
+                local px,py = bl:getPosition()
+                local tx,ty = functionUtil:posToTile(px,py)
+                local dx,dy = functionUtil:tileToPos(i,j)
+                logDebug("生成位置 col:"..i.."row:"..j.."Pos X:"..px.."  Pos Y"..py.."转换得到的col:"..tx.."  row:"..ty.."  Pos X"..dx.."  Pos Y"..dy)
+                if i==tx and j==ty then
+                	logDebug("块坐标成功")
+                else
+                    logDebug("失败=======================================")
+                end
+                
+                if px==dx and py==dy then
+                	logDebug("点坐标成功")
+                else	
+                	logDebug("点坐标失败===============================")
+                end
+                
                 self:addChild(bl)
                 bl:setName(i..":"..j)
                 mHeight =mHeight+GRID_HEIGHT	

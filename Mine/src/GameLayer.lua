@@ -49,6 +49,8 @@ function GameLayer:init()
     self:setPosition(ksw,ksh)
 	
 	local pp=self:convertToNodeSpace(cc.p(0,0))
+	self._Mark_X =pp.x
+	self._Mark_Y =pp.y
 	logDebug(ksw.."==="..ksh)
 	logDebug(pp.x..":::"..pp.y)
 end

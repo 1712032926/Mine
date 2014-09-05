@@ -1,4 +1,4 @@
-require("src/Global")
+require("Global")
 local GlobalModel = class("GlobalModel")
 
 

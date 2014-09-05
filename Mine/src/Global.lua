@@ -8,6 +8,11 @@ BlockType ={"grass","bomb","land"}
 --纹理
 BlockImage = {grass = "8.png",bomb="26.png",land ="3.png"}
 
+
+TILE_WIDTH = 101
+TILE_HEIGHT =162
+
+
 LandImage = {}
 
 --默认方格大小
