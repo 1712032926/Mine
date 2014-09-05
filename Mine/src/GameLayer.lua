@@ -10,6 +10,8 @@ end)
 function GameLayer:ctor()
 	self._col = 5
 	self._row = 5
+	self._Mark_X =0
+	self._Mark_Y = 0
 	
 end
 
@@ -22,7 +24,7 @@ function GameLayer:init()
 	
 	--创建雷地
 	local mineFile = require("MineFiled").new()
-    mineFile:init(1,LEVEL_SIMPLE,1) 
+    mineFile:init(10,LEVEL_SIMPLE,1) 
 	
 	self:addChild(mineFile)
     mineFile:setTag(LAYER_MINEFILED) --设置标示
@@ -46,7 +48,9 @@ function GameLayer:init()
 	--设置位置
     self:setPosition(ksw,ksh)
 	
-
+	local pp=self:convertToNodeSpace(cc.p(0,0))
+	logDebug(ksw.."==="..ksh)
+	logDebug(pp.x..":::"..pp.y)
 end
 
 
@@ -54,7 +58,8 @@ end
 ---------------------------
 --@return #nil 移动
 function GameLayer:moveMap(dx,dy)
-	self:setPosition(dx,dy)
+    local px,py = self:getPosition()
+	self:setPosition(px+dx,py+dy)
     local mineFile = self:getChildByTag(LAYER_MINEFILED)
 	
 	

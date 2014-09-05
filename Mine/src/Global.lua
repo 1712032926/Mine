@@ -47,9 +47,9 @@ LEVEL_VERYHARD   = 1 -- 非常难(基本不能用，最大难度)
 
 --地雷区域分块
 --奇数
-MINE_ODD_NUM = 103
+MINE_ODD_NUM = 15
 --偶数
-MINE_EVEN_NUM = 102
+MINE_EVEN_NUM = 14
 
 --[[
 ---------------------------

@@ -91,7 +91,7 @@ end
 
 
 ---------------------------
---@return #nil 判断位置
+--@return #nil 判断位置更新地雷块
 function MineFiled:updateMine(dt)
 	print("aaaaaaaa")
 
@@ -108,6 +108,15 @@ function MineFiled:initMine(col,row)
 	logDebug("有"..count.."个炸弹")
 	
     return tableMine
+end
+
+
+
+---------------------------
+--@return #nil 根据移动更新显示雷块
+function MineFiled:updateMineByMove(dx,dy)
+	
+	
 end
 
 

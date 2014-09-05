@@ -92,7 +92,7 @@ function ControllerLayer:init(layer)
             else
              --   print("移动")
              --   限制移动范围
-                self._layer:moveMap(cx+dx,cy+dy)
+                self._layer:moveMap(dx,dy)
                 touchBeginPoint = {x=location.x,y=location.y}
             end
             
