@@ -48,7 +48,7 @@ function MineFiled:init(lv,cr,type,table_data)
     self._level=lv
     self._mWidth =0
     self._mHeight = 0
-   
+    self._minPos = nil
     if (lv+MINE_FIRST_NUM)>10 then
         local vk = (lv+MINE_FIRST_NUM)%2
         if vk~=0 then
@@ -116,8 +116,29 @@ end
 
 ---------------------------
 --@return #nil 根据移动更新显示雷块
-function MineFiled:updateMineByMove(dx,dy)
-	
+function MineFiled:updateMineByMove(dp)
+    local tx,ty = functionUtil:posToTile(dp.x,dp.y)
+    
+    logDebug("tx:"..tx.."  minPos:"..self._minPos.x)
+    if tx>self._minPos.x then
+        local num = tx-self._minPos.x
+
+        for vi=self._minPos.x,tx do
+            local block = self:getMineBlock(vi,self._minPos.y)
+            if block then
+               
+                logDebug("删除第"..block._col..":"..block._row.."个地雷")
+                block:removeFromParent()
+            end
+           
+    	end
+    	
+    	
+    	
+    	--self._minPos.x = tx
+    end
+    
+    
 	
 end
 
@@ -134,7 +155,10 @@ function MineFiled:createNewFiled(lv)
     local mHeight=0
     
     local ostar_i = math.floor((self._col-self._regionSize)/2)
-   
+    
+    --左下角，最小的一块
+    self._minPos = cc.p(ostar_i,ostar_i)
+    --遍历生成
     for i=ostar_i, self._regionSize-1+ostar_i do
         mHeight = 0
         for j=ostar_i, self._regionSize-1+ostar_i do
@@ -166,7 +190,7 @@ function MineFiled:createNewFiled(lv)
                 
                 self:addChild(bl)
                 bl:setName(i..":"..j)
-                mHeight =mHeight+GRID_HEIGHT	
+                mHeight =mHeight+GRID_HEIGHT
         end
 
         end
@@ -181,6 +205,9 @@ function MineFiled:createNewFiled(lv)
     logDebug("初始的生成位置X:"..startX..": Y:"..startY)
     self._Mark_X =startX
     self._Mark_Y = startY
+    
+    --local pp = self:convertToWorldSpace(cc.p(startX,startY))
+    --logDebug("世界位置X:"..pp.x..": Y:"..pp.y-)
     --self:convertToWorldSpace(cc.p(startX,startY))
 	--self:setContentSize(mWidth,mHeight)
 	--布置雷区

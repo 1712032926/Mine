@@ -10,7 +10,7 @@ end)
 function GameLayer:ctor()
 	self._col = 5
 	self._row = 5
-
+	self._startPos=nil
 	
 end
 
@@ -23,7 +23,7 @@ function GameLayer:init()
 	
 	--创建雷地
 	local mineFile = require("src/Common/Layer/MineFiled").new()
-    mineFile:init(1,LEVEL_SIMPLE,1) 
+    mineFile:init(18,LEVEL_SIMPLE,1) 
 	
 	self:addChild(mineFile)
     mineFile:setTag(LAYER_MINEFILED) --设置标示
@@ -47,7 +47,20 @@ function GameLayer:init()
 	--设置位置
     self:setPosition(ksw,ksh)
 	
-
+    local pp = self:convertToWorldSpace(cc.p(mineFile._Mark_X,mineFile._Mark_Y))
+    local kx = ksw +mineFile._Mark_X
+    local ky = ksh +mineFile._Mark_Y
+    
+    self._startPos = pp
+    
+    logDebug("世界位置X:"..pp.x..": Y:"..pp.y)
+    logDebug("世界位置2X:"..kx..": Y:"..ky)
+    
+    --self:_startPos
+    local tp = self:convertToNodeSpace(pp)
+    logDebug("点2X:"..tp.x..": Y:"..tp.y)
+    local tx,ty = functionUtil:posToTile(tp.x,tp.y)
+    logDebug("====块   :"..tx..": Y:"..ty)
 end
 
 
@@ -58,8 +71,11 @@ function GameLayer:moveMap(dx,dy)
     local px,py = self:getPosition()
 	self:setPosition(px+dx,py+dy)
     local mineFile = self:getChildByTag(LAYER_MINEFILED)
-	
-	
+    local tp = self:convertToNodeSpace(self._startPos)
+    logDebug("点2X:"..tp.x..": Y:"..tp.y)
+    mineFile:updateMineByMove(tp)
+    local tx,ty = functionUtil:posToTile(tp.x,tp.y)
+    logDebug("====块   :"..tx..": Y:"..ty)
 end
 
 
