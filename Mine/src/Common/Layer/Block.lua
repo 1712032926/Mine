@@ -76,6 +76,19 @@ function Block:openBlock()
 end
 
 
+---------------------------
+--@return #nil 还原设置
+function Block:reState(col,row)
+    local sp = self:getChildByTag(100)
+    if sp then
+        sp:setVisible(true)
+    end
+    if col and row then
+    	self:setPosByTile(col,row)
+    	self:setName(col..":"..row)
+    end
+    
+end
 
 ---------------------------
 --@return #nil 设置周围拥有地雷得数字
@@ -92,9 +105,7 @@ end
 ---------------------------
 --@return #nil 设置行列
 function Block:setColRow(col,row)
-    if col==11 and row == 1 then
-    	print("找到了 11：1")
-    end
+
 	self._col = col
 	self._row = row
 end
@@ -106,6 +117,19 @@ function Block:setPos(x,y)
     local gx = x/GRID_WIDTH
     local gy = y/GRID_HEIGHT
 	self:setLocalZOrder(1000-gy)
+end
+
+
+
+---------------------------
+--@return #nil 通过块坐标设置位置
+function Block:setPosByTile(col,row)
+	
+    local dx,dy = functionUtil:tileToPos(col,row)
+	
+	self:setPos(dx,dy)
+	self:setColRow(col,row)
+	
 end
 
 

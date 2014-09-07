@@ -49,6 +49,7 @@ function MineFiled:init(lv,cr,type,table_data)
     self._mWidth =0
     self._mHeight = 0
     self._minPos = nil
+    self._maxPos = nil
     if (lv+MINE_FIRST_NUM)>10 then
         local vk = (lv+MINE_FIRST_NUM)%2
         if vk~=0 then
@@ -117,30 +118,102 @@ end
 ---------------------------
 --@return #nil 根据移动更新显示雷块
 function MineFiled:updateMineByMove(dp)
+
+    
+   
     local tx,ty = functionUtil:posToTile(dp.x,dp.y)
     
     logDebug("tx:"..tx.."  minPos:"..self._minPos.x)
     if tx>self._minPos.x then
-        local num = tx-self._minPos.x
 
         for vi=self._minPos.x,tx do
-            local block = self:getMineBlock(vi,self._minPos.y)
-            if block then
-               
-                logDebug("删除第"..block._col..":"..block._row.."个地雷")
-                block:removeFromParent()
+        
+            for vrow=self._minPos.y, ty+self._regionSize do
+                local block = self:getMineBlock(vi,vrow)
+                if block then
+
+                   -- logDebug("删除第"..block._col..":"..block._row.."个地雷")
+                    --block:removeFromParent()
+                  --  block:setPosByTile(vi+self._regionSize,vrow)
+                --    block:setName(block._col..":"..block._row)
+                    block:reState(vi+self._regionSize,vrow)
+                end
             end
+
            
     	end
     	
     	
     	
-    	--self._minPos.x = tx
+    	self._minPos.x = tx
+        self._maxPos.x = tx+self._regionSize
+    end
+    
+        
+    if ty>self._minPos.y then
+    	
+    	for vrow=self._minPos.y, ty do
+            for vcol=self._minPos.x, tx+self._regionSize do
+                local block = self:getMineBlock(vcol,vrow)
+                if block then
+                    --block:removeFromParent()
+                  --  block:setPosByTile(vcol,vrow+self._regionSize)
+                   -- block:setName(block._col..":"..block._row)
+                    block:reState(vcol,vrow+self._regionSize)
+                end
+    		end
+    	end
+        self._minPos.y = ty
+        self._maxPos.y = ty+self._regionSize
+    end
+    
+    
+    local maxdx = tx+ self._regionSize
+    local maxdy = ty+ self._regionSize
+    if maxdx <  self._maxPos.x then
+        for vi=maxdx,self._maxPos.x do
+
+            for vrow=self._maxPos.y-self._regionSize, maxdy do
+                local block = self:getMineBlock(vi,vrow)
+                if block then
+
+                  --  logDebug("删除第"..block._col..":"..block._row.."个地雷")
+                    --block:removeFromParent()
+                    block:reState(vi-self._regionSize,vrow)
+                  --  block:setPosByTile(vi-self._regionSize,vrow)
+                  --  block:setName(block._col..":"..block._row)
+                end
+            end
+
+
+        end
+        self._maxPos.x = maxdx
+        self._minPos.x = maxdx-self._regionSize
+    end
+    
+    if maxdy <self._maxPos.y then
+    	
+        for vrow=maxdy,self._maxPos.y  do
+            for vcol=self._maxPos.x-self._regionSize,self._maxPos.x do
+                local block = self:getMineBlock(vcol,vrow)
+                if block then
+                    --block:removeFromParent()
+                    block:reState(vcol,vrow-self._regionSize)
+                  --  block:setPosByTile(vcol,vrow-self._regionSize)
+                  --  block:setName(block._col..":"..block._row)
+                end
+            end
+        end
+        self._maxPos.y = maxdy
+        self._minPos.y = maxdy-self._regionSize
     end
     
     
 	
 end
+
+
+
 
 
 ---------------------------
@@ -158,6 +231,7 @@ function MineFiled:createNewFiled(lv)
     
     --左下角，最小的一块
     self._minPos = cc.p(ostar_i,ostar_i)
+    self._maxPos = cc.p(self._regionSize-1+ostar_i,self._regionSize-1+ostar_i)
     --遍历生成
     for i=ostar_i, self._regionSize-1+ostar_i do
         mHeight = 0

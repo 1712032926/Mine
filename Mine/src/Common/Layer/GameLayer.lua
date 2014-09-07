@@ -53,14 +53,14 @@ function GameLayer:init()
     
     self._startPos = pp
     
-    logDebug("世界位置X:"..pp.x..": Y:"..pp.y)
-    logDebug("世界位置2X:"..kx..": Y:"..ky)
+   -- logDebug("世界位置X:"..pp.x..": Y:"..pp.y)
+   -- logDebug("世界位置2X:"..kx..": Y:"..ky)
     
     --self:_startPos
     local tp = self:convertToNodeSpace(pp)
-    logDebug("点2X:"..tp.x..": Y:"..tp.y)
+  --  logDebug("点2X:"..tp.x..": Y:"..tp.y)
     local tx,ty = functionUtil:posToTile(tp.x,tp.y)
-    logDebug("====块   :"..tx..": Y:"..ty)
+  --  logDebug("====块   :"..tx..": Y:"..ty)
 end
 
 
@@ -68,14 +68,34 @@ end
 ---------------------------
 --@return #nil 移动
 function GameLayer:moveMap(dx,dy)
-    local px,py = self:getPosition()
-	self:setPosition(px+dx,py+dy)
+    local px,py = self:getPosition()    
+    
+    local newX = px+dx
+    local newY = py+dy
     local mineFile = self:getChildByTag(LAYER_MINEFILED)
+    if newX>0 or newY>0 then
+    	return nil
+    end
+    local msize = self:getParent():getContentSize()
+    
+    local mw = GRID_WIDTH * mineFile._col
+    local mh = GRID_HEIGHT* mineFile._row
+    local cx = -1*(mw- msize.width)
+     local cy = -1*(mh- msize.height)
+    logDebug("宽度 w"..mw.."  限制的距离"..cx)
+    logDebug("移动的位置  X"..newX.."  Y:"..newY)
+    
+    if newX < cx or newY < cy then
+    	return nil
+    end
+    
+    self:setPosition(newX,newY)
+    
     local tp = self:convertToNodeSpace(self._startPos)
-    logDebug("点2X:"..tp.x..": Y:"..tp.y)
+    --logDebug("点2X:"..tp.x..": Y:"..tp.y)
     mineFile:updateMineByMove(tp)
     local tx,ty = functionUtil:posToTile(tp.x,tp.y)
-    logDebug("====块   :"..tx..": Y:"..ty)
+    --logDebug("====块   :"..tx..": Y:"..ty)
 end
 
 
