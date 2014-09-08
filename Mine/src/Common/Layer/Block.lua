@@ -81,7 +81,7 @@ end
 function Block:reState(col,row)
     local sp = self:getChildByTag(100)
     if sp then
-        sp:setVisible(true)
+        --sp:setVisible(true)
     end
     if col and row then
     	self:setPosByTile(col,row)

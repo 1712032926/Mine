@@ -124,77 +124,82 @@ function MineFiled:updateMineByMove(dp)
     local tx,ty = functionUtil:posToTile(dp.x,dp.y)
     
     logDebug("tx:"..tx.."  minPos:"..self._minPos.x)
-    if tx>self._minPos.x then
+    
+    local vhave = true
+    
+    if tx>self._minPos.x  then
 
         for vi=self._minPos.x,tx do
-        
-            for vrow=self._minPos.y, ty+self._regionSize do
+            local rlen = self._minPos.y+self._regionSize-1
+            for vrow=self._minPos.y, rlen do
                 local block = self:getMineBlock(vi,vrow)
                 if block then
 
                    -- logDebug("删除第"..block._col..":"..block._row.."个地雷")
-                    --block:removeFromParent()
+                      block:removeFromParent()
                   --  block:setPosByTile(vi+self._regionSize,vrow)
                 --    block:setName(block._col..":"..block._row)
-                    block:reState(vi+self._regionSize,vrow)
+                  --  block:reState(vi+self._regionSize,vrow)
                
                 else
-                    local chb = self:getMineBlock(vi+self._regionSize,vrow)
-                    if chb then
-                        chb:reState(vi+self._regionSize,vrow)
-                       
-                        
-                    else
-                    
-                        local bl = blockcreate.new()
-                        bl:init(self,self._type)
-                        self:addChild(bl)
-                        bl:reState(vi+self._regionSize,vrow)
-                    
-                        
-                    end
+--                    local chb = self:getMineBlock(vi+self._regionSize,vrow)
+--                    if chb then
+--                        chb:reState(vi+self._regionSize,vrow)
+--                       
+--                        
+--                    else
+--                    
+--                        local bl = blockcreate.new()
+--                        bl:init(self,self._type)
+--                        self:addChild(bl)
+--                        bl:reState(vi+self._regionSize,vrow)
+--                    
+--                        
+--                    end
 
                 end
                 
                 
             end
 
-           
+            self._minPos.x = tx
+            self._maxPos.x = tx+self._regionSize
     	end
     	
     	
     	
-    	self._minPos.x = tx
-        self._maxPos.x = tx+self._regionSize
+
+       
     end
     
-        
-    if ty>self._minPos.y then
-    	
+    
+    if ty>self._minPos.y  then
+
     	for vrow=self._minPos.y, ty do
-            for vcol=self._minPos.x, tx+self._regionSize do
+            local vlen = self._minPos.x+self._regionSize-1
+            for vcol=self._minPos.x, vlen do
                 local block = self:getMineBlock(vcol,vrow)
                 if block then
-                    --block:removeFromParent()
+                    block:removeFromParent()
                   --  block:setPosByTile(vcol,vrow+self._regionSize)
                    -- block:setName(block._col..":"..block._row)
-                    block:reState(vcol,vrow+self._regionSize)
+                 --   block:reState(vcol,vrow+self._regionSize)
                     
                 else
-                    local chb = self:getMineBlock(vcol,vrow+self._regionSize)
-                    if chb then
-                        chb:reState(vcol,vrow+self._regionSize)
-                       
-                        
-                    else
-                    
-                        local bl = blockcreate.new()
-                        bl:init(self,self._type)
-                        self:addChild(bl)
-                        bl:reState(vcol,vrow+self._regionSize)
-                        
-                    end
-                
+--                    local chb = self:getMineBlock(vcol,vrow+self._regionSize)
+--                    if chb then
+--                        chb:reState(vcol,vrow+self._regionSize)
+--                       
+--                        
+--                    else
+--                    
+--                        local bl = blockcreate.new()
+--                        bl:init(self,self._type)
+--                        self:addChild(bl)
+--                        bl:reState(vcol,vrow+self._regionSize)
+--                        
+--                    end
+--                
 
                     
                 end
@@ -207,37 +212,37 @@ function MineFiled:updateMineByMove(dp)
     
     local maxdx = tx+ self._regionSize
     local maxdy = ty+ self._regionSize
-    if maxdx <  self._maxPos.x then
+    if maxdx <  self._maxPos.x     then
         for vi=maxdx,self._maxPos.x do
-
-            for vrow=self._maxPos.y-self._regionSize, maxdy do
+            local rsta = self._maxPos.y-self._regionSize+1
+            for vrow=rsta, maxdy-1 do
                 local block = self:getMineBlock(vi,vrow)
                 if block then
 
                   --  logDebug("删除第"..block._col..":"..block._row.."个地雷")
-                    --block:removeFromParent()
-                    block:reState(vi-self._regionSize,vrow)
+                    block:removeFromParent()
+                   -- block:reState(vi-self._regionSize,vrow)
                   --  block:setPosByTile(vi-self._regionSize,vrow)
                   --  block:setName(block._col..":"..block._row)
                   
                 else
-                    local chb = self:getMineBlock(vi-self._regionSize,vrow)
-                    if chb then
-                        chb:reState(vi-self._regionSize,vrow)
-                        
-                        
-                    else
-                        
-                        local bl = blockcreate.new()
-                        bl:init(self,self._type)
-                        self:addChild(bl)
-                        bl:reState(vi-self._regionSize,vrow)
-                        
-                    end
-                
-                
-
-                  
+--                    local chb = self:getMineBlock(vi-self._regionSize,vrow)
+--                    if chb then
+--                        chb:reState(vi-self._regionSize,vrow)
+--                        
+--                        
+--                    else
+--                        
+--                        local bl = blockcreate.new()
+--                        bl:init(self,self._type)
+--                        self:addChild(bl)
+--                        bl:reState(vi-self._regionSize,vrow)
+--                        
+--                    end
+--                
+--                
+--
+--                  
                   
                 end
             end
@@ -248,34 +253,36 @@ function MineFiled:updateMineByMove(dp)
         self._minPos.x = maxdx-self._regionSize
     end
     
-    if maxdy <self._maxPos.y then
+    if maxdy <self._maxPos.y  then
     	
         for vrow=maxdy,self._maxPos.y  do
-            for vcol=self._maxPos.x-self._regionSize,self._maxPos.x do
+            local vstar = self._maxPos.x-self._regionSize+1
+            local vlen = self._maxPos.x
+            for vcol=vstar,vlen do
                 local block = self:getMineBlock(vcol,vrow)
                 if block then
-                    --block:removeFromParent()
-                    block:reState(vcol,vrow-self._regionSize)
+                    block:removeFromParent()
+                   -- block:reState(vcol,vrow-self._regionSize)
                   --  block:setPosByTile(vcol,vrow-self._regionSize)
                   --  block:setName(block._col..":"..block._row)
                
                 else
                 
-                    local chb = self:getMineBlock(vcol,vrow-self._regionSize)
-                    if chb then
-                        chb:reState(vcol,vrow-self._regionSize)
-                       
-                        
-                    else
-                        
-                        local bl = blockcreate.new()
-                        bl:init(self,self._type)
-                        self:addChild(bl)
-                        bl:reState(vcol,vrow-self._regionSize)
-                        
-                        
-                    end
-                
+--                    local chb = self:getMineBlock(vcol,vrow-self._regionSize)
+--                    if chb then
+--                        chb:reState(vcol,vrow-self._regionSize)
+--                       
+--                        
+--                    else
+--                        
+--                        local bl = blockcreate.new()
+--                        bl:init(self,self._type)
+--                        self:addChild(bl)
+--                        bl:reState(vcol,vrow-self._regionSize)
+--                        
+--                        
+--                    end
+--                
 
 
                
