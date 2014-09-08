@@ -119,7 +119,7 @@ end
 --@return #nil 根据移动更新显示雷块
 function MineFiled:updateMineByMove(dp)
 
-    
+    local blockcreate = require("Common/Layer/Block")
    
     local tx,ty = functionUtil:posToTile(dp.x,dp.y)
     
@@ -137,7 +137,26 @@ function MineFiled:updateMineByMove(dp)
                   --  block:setPosByTile(vi+self._regionSize,vrow)
                 --    block:setName(block._col..":"..block._row)
                     block:reState(vi+self._regionSize,vrow)
+               
+                else
+                    local chb = self:getMineBlock(vi+self._regionSize,vrow)
+                    if chb then
+                        chb:reState(vi+self._regionSize,vrow)
+                       
+                        
+                    else
+                    
+                        local bl = blockcreate.new()
+                        bl:init(self,self._type)
+                        self:addChild(bl)
+                        bl:reState(vi+self._regionSize,vrow)
+                    
+                        
+                    end
+
                 end
+                
+                
             end
 
            
@@ -160,6 +179,24 @@ function MineFiled:updateMineByMove(dp)
                   --  block:setPosByTile(vcol,vrow+self._regionSize)
                    -- block:setName(block._col..":"..block._row)
                     block:reState(vcol,vrow+self._regionSize)
+                    
+                else
+                    local chb = self:getMineBlock(vcol,vrow+self._regionSize)
+                    if chb then
+                        chb:reState(vcol,vrow+self._regionSize)
+                       
+                        
+                    else
+                    
+                        local bl = blockcreate.new()
+                        bl:init(self,self._type)
+                        self:addChild(bl)
+                        bl:reState(vcol,vrow+self._regionSize)
+                        
+                    end
+                
+
+                    
                 end
     		end
     	end
@@ -182,6 +219,26 @@ function MineFiled:updateMineByMove(dp)
                     block:reState(vi-self._regionSize,vrow)
                   --  block:setPosByTile(vi-self._regionSize,vrow)
                   --  block:setName(block._col..":"..block._row)
+                  
+                else
+                    local chb = self:getMineBlock(vi-self._regionSize,vrow)
+                    if chb then
+                        chb:reState(vi-self._regionSize,vrow)
+                        
+                        
+                    else
+                        
+                        local bl = blockcreate.new()
+                        bl:init(self,self._type)
+                        self:addChild(bl)
+                        bl:reState(vi-self._regionSize,vrow)
+                        
+                    end
+                
+                
+
+                  
+                  
                 end
             end
 
@@ -201,6 +258,27 @@ function MineFiled:updateMineByMove(dp)
                     block:reState(vcol,vrow-self._regionSize)
                   --  block:setPosByTile(vcol,vrow-self._regionSize)
                   --  block:setName(block._col..":"..block._row)
+               
+                else
+                
+                    local chb = self:getMineBlock(vcol,vrow-self._regionSize)
+                    if chb then
+                        chb:reState(vcol,vrow-self._regionSize)
+                       
+                        
+                    else
+                        
+                        local bl = blockcreate.new()
+                        bl:init(self,self._type)
+                        self:addChild(bl)
+                        bl:reState(vcol,vrow-self._regionSize)
+                        
+                        
+                    end
+                
+
+
+               
                 end
             end
         end

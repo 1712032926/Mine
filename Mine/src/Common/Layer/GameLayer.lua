@@ -73,9 +73,13 @@ function GameLayer:moveMap(dx,dy)
     local newX = px+dx
     local newY = py+dy
     local mineFile = self:getChildByTag(LAYER_MINEFILED)
-    if newX>0 or newY>0 then
-    	return nil
+    if newX>0   then
+    	newX=0
     end
+    if newY>0 then
+    	newY=0
+    end
+    
     local msize = self:getParent():getContentSize()
     
     local mw = GRID_WIDTH * mineFile._col
@@ -85,9 +89,14 @@ function GameLayer:moveMap(dx,dy)
     logDebug("宽度 w"..mw.."  限制的距离"..cx)
     logDebug("移动的位置  X"..newX.."  Y:"..newY)
     
-    if newX < cx or newY < cy then
-    	return nil
+    if newX < cx  then
+    	newX = cx
     end
+    
+    if  newY < cy then
+    	newY = cy
+    end
+    
     
     self:setPosition(newX,newY)
     
