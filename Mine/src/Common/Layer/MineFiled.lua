@@ -49,7 +49,11 @@ function MineFiled:init(lv,cr,type,table_data)
     self._mWidth =0
     self._mHeight = 0
     self._minPos = nil
+    self._prMinPos =nil
+    
     self._maxPos = nil
+    self._prMaxPos =nil
+    
     if (lv+MINE_FIRST_NUM)>10 then
         local vk = (lv+MINE_FIRST_NUM)%2
         if vk~=0 then
@@ -127,6 +131,10 @@ function MineFiled:updateMineByMove(dp)
     
     local vhave = true
     
+    local table_block = {}
+    local tindex = 0
+    self._prMinPos = self._minPos
+    self._prMaxPos = self._maxPos
     if tx>self._minPos.x  then
 
         for vi=self._minPos.x,tx do
@@ -136,11 +144,12 @@ function MineFiled:updateMineByMove(dp)
                 if block then
 
                    -- logDebug("删除第"..block._col..":"..block._row.."个地雷")
-                      block:removeFromParent()
+                  --    block:removeFromParent()
+                      block:setVisible(false)
                   --  block:setPosByTile(vi+self._regionSize,vrow)
                 --    block:setName(block._col..":"..block._row)
                   --  block:reState(vi+self._regionSize,vrow)
-               
+                    table.insert(table_block,block)
                 else
 --                    local chb = self:getMineBlock(vi+self._regionSize,vrow)
 --                    if chb then
@@ -180,11 +189,12 @@ function MineFiled:updateMineByMove(dp)
             for vcol=self._minPos.x, vlen do
                 local block = self:getMineBlock(vcol,vrow)
                 if block then
-                    block:removeFromParent()
+                    --block:removeFromParent()
                   --  block:setPosByTile(vcol,vrow+self._regionSize)
                    -- block:setName(block._col..":"..block._row)
                  --   block:reState(vcol,vrow+self._regionSize)
-                    
+                    block:setVisible(false)
+                    table.insert(table_block,block)
                 else
 --                    local chb = self:getMineBlock(vcol,vrow+self._regionSize)
 --                    if chb then
@@ -210,6 +220,12 @@ function MineFiled:updateMineByMove(dp)
     end
     
     
+    
+    
+    
+    
+    ---
+    
     local maxdx = tx+ self._regionSize
     local maxdy = ty+ self._regionSize
     if maxdx <  self._maxPos.x     then
@@ -220,11 +236,12 @@ function MineFiled:updateMineByMove(dp)
                 if block then
 
                   --  logDebug("删除第"..block._col..":"..block._row.."个地雷")
-                    block:removeFromParent()
+                  --  block:removeFromParent()
                    -- block:reState(vi-self._regionSize,vrow)
                   --  block:setPosByTile(vi-self._regionSize,vrow)
                   --  block:setName(block._col..":"..block._row)
-                  
+                    block:setVisible(false)
+                    table.insert(table_block,block)
                 else
 --                    local chb = self:getMineBlock(vi-self._regionSize,vrow)
 --                    if chb then
@@ -261,11 +278,13 @@ function MineFiled:updateMineByMove(dp)
             for vcol=vstar,vlen do
                 local block = self:getMineBlock(vcol,vrow)
                 if block then
-                    block:removeFromParent()
+                   -- block:removeFromParent()
                    -- block:reState(vcol,vrow-self._regionSize)
                   --  block:setPosByTile(vcol,vrow-self._regionSize)
                   --  block:setName(block._col..":"..block._row)
-               
+                    block:setVisible(false)
+                    table.insert(table_block,block)
+                    
                 else
                 
 --                    local chb = self:getMineBlock(vcol,vrow-self._regionSize)
@@ -291,6 +310,19 @@ function MineFiled:updateMineByMove(dp)
         end
         self._maxPos.y = maxdy
         self._minPos.y = maxdy-self._regionSize
+    end
+    
+    
+    local tindex=1
+  --  table_block:remove
+    if self._minPos ~= self._prMinPos then
+        local block = table_block[tindex]
+        table.remove(table_block,tindex)
+    	logDebug("====================================")
+    	
+    	
+    	
+    	
     end
     
     
