@@ -28,8 +28,10 @@ function Block:init(layer,bType)
 	
 	--bl:setAnchorPoint(0.5,0.5)
 	local acpoint = bl:getAnchorPoint();
-	
-	
+    self._label2 = cc.LabelTTF:create("2222", "Arial", 24)
+    self:addChild(self._label2)
+    self._label2:setTag(101)
+    
 	--print(acpoint.x..":"..acpoint.y)
 	
   --  self:setAnchorPoint(0,0)
@@ -108,6 +110,7 @@ function Block:setColRow(col,row)
 
 	self._col = col
 	self._row = row
+    self._label2:setString(self._col..":"..self._row)
 end
 
 ---------------------------

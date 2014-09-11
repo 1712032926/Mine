@@ -49,10 +49,10 @@ function MineFiled:init(lv,cr,type,table_data)
     self._mWidth =0
     self._mHeight = 0
     self._minPos = nil
-    self._prMinPos =nil
+    self._prMinPos =cc.p(-1,-1)
     
     self._maxPos = nil
-    self._prMaxPos =nil
+    self._prMaxPos =cc.p(-1,-1)
     
     if (lv+MINE_FIRST_NUM)>10 then
         local vk = (lv+MINE_FIRST_NUM)%2
@@ -133,11 +133,13 @@ function MineFiled:updateMineByMove(dp)
     
     local table_block = {}
     local tindex = 0
+
     self._prMinPos = self._minPos
     self._prMaxPos = self._maxPos
+
     if tx>self._minPos.x  then
 
-        for vi=self._minPos.x,tx do
+        for vi=self._minPos.x,tx-1 do
             local rlen = self._minPos.y+self._regionSize-1
             for vrow=self._minPos.y, rlen do
                 local block = self:getMineBlock(vi,vrow)
@@ -145,11 +147,11 @@ function MineFiled:updateMineByMove(dp)
 
                    -- logDebug("删除第"..block._col..":"..block._row.."个地雷")
                   --    block:removeFromParent()
-                      block:setVisible(false)
+                     -- block:setVisible(false)
                   --  block:setPosByTile(vi+self._regionSize,vrow)
                 --    block:setName(block._col..":"..block._row)
-                  --  block:reState(vi+self._regionSize,vrow)
-                    table.insert(table_block,block)
+                    block:reState(vi+self._regionSize,vrow)
+                    
                 else
 --                    local chb = self:getMineBlock(vi+self._regionSize,vrow)
 --                    if chb then
@@ -171,8 +173,11 @@ function MineFiled:updateMineByMove(dp)
                 
             end
 
+ 
             self._minPos.x = tx
-            self._maxPos.x = tx+self._regionSize
+            self._maxPos.x = tx+self._regionSize-1
+            
+
     	end
     	
     	
@@ -184,7 +189,7 @@ function MineFiled:updateMineByMove(dp)
     
     if ty>self._minPos.y  then
 
-    	for vrow=self._minPos.y, ty do
+    	for vrow=self._minPos.y, ty-1 do
             local vlen = self._minPos.x+self._regionSize-1
             for vcol=self._minPos.x, vlen do
                 local block = self:getMineBlock(vcol,vrow)
@@ -192,9 +197,9 @@ function MineFiled:updateMineByMove(dp)
                     --block:removeFromParent()
                   --  block:setPosByTile(vcol,vrow+self._regionSize)
                    -- block:setName(block._col..":"..block._row)
-                 --   block:reState(vcol,vrow+self._regionSize)
-                    block:setVisible(false)
-                    table.insert(table_block,block)
+                     block:reState(vcol,vrow+self._regionSize)
+                  --  block:setVisible(false)
+                   -- table.insert(table_block,block)
                 else
 --                    local chb = self:getMineBlock(vcol,vrow+self._regionSize)
 --                    if chb then
@@ -214,9 +219,14 @@ function MineFiled:updateMineByMove(dp)
                     
                 end
     		end
+    		
+            self._minPos.y = ty
+            self._maxPos.y = ty+self._regionSize-1
+    		
     	end
-        self._minPos.y = ty
-        self._maxPos.y = ty+self._regionSize
+    	
+
+
     end
     
     
@@ -229,19 +239,21 @@ function MineFiled:updateMineByMove(dp)
     local maxdx = tx+ self._regionSize
     local maxdy = ty+ self._regionSize
     if maxdx <  self._maxPos.x     then
-        for vi=maxdx,self._maxPos.x do
-            local rsta = self._maxPos.y-self._regionSize+1
-            for vrow=rsta, maxdy-1 do
+        local sjd = self._maxPos.x
+        for vi=maxdx+1,self._maxPos.x do
+            --local rsta = self._maxPos.y-self._regionSize
+            local rlen = self._minPos.y+self._regionSize-1
+            for vrow=self._minPos.y, rlen do
                 local block = self:getMineBlock(vi,vrow)
                 if block then
 
                   --  logDebug("删除第"..block._col..":"..block._row.."个地雷")
                   --  block:removeFromParent()
-                   -- block:reState(vi-self._regionSize,vrow)
+                    block:reState(vi-self._regionSize,vrow)
                   --  block:setPosByTile(vi-self._regionSize,vrow)
                   --  block:setName(block._col..":"..block._row)
-                    block:setVisible(false)
-                    table.insert(table_block,block)
+               --     block:setVisible(false)
+               --     table.insert(table_block,block)
                 else
 --                    local chb = self:getMineBlock(vi-self._regionSize,vrow)
 --                    if chb then
@@ -263,27 +275,30 @@ function MineFiled:updateMineByMove(dp)
                   
                 end
             end
-
+            
+            self._maxPos.x = maxdx
+            self._minPos.x = maxdx-self._regionSize+1
 
         end
-        self._maxPos.x = maxdx
-        self._minPos.x = maxdx-self._regionSize
+        
+
+
     end
     
     if maxdy <self._maxPos.y  then
-    	
-        for vrow=maxdy,self._maxPos.y  do
+        local vvmax = self._maxPos.y
+        for vrow=maxdy+1,vvmax do
             local vstar = self._maxPos.x-self._regionSize+1
             local vlen = self._maxPos.x
             for vcol=vstar,vlen do
                 local block = self:getMineBlock(vcol,vrow)
                 if block then
                    -- block:removeFromParent()
-                   -- block:reState(vcol,vrow-self._regionSize)
+                    block:reState(vcol,vrow-self._regionSize)
                   --  block:setPosByTile(vcol,vrow-self._regionSize)
                   --  block:setName(block._col..":"..block._row)
-                    block:setVisible(false)
-                    table.insert(table_block,block)
+                 --   block:setVisible(false)
+                   -- table.insert(table_block,block)
                     
                 else
                 
@@ -307,23 +322,17 @@ function MineFiled:updateMineByMove(dp)
                
                 end
             end
+            
+            self._maxPos.y = maxdy
+            self._minPos.y = maxdy-self._regionSize+1
         end
-        self._maxPos.y = maxdy
-        self._minPos.y = maxdy-self._regionSize
+        
+
+
     end
     
     
-    local tindex=1
-  --  table_block:remove
-    if self._minPos ~= self._prMinPos then
-        local block = table_block[tindex]
-        table.remove(table_block,tindex)
-    	logDebug("====================================")
-    	
-    	
-    	
-    	
-    end
+
     
     
 	
@@ -350,8 +359,12 @@ function MineFiled:createNewFiled(lv)
     self._minPos = cc.p(ostar_i,ostar_i)
     self._maxPos = cc.p(self._regionSize-1+ostar_i,self._regionSize-1+ostar_i)
     --遍历生成
+    
+    local vero = 1
+    
     for i=ostar_i, self._regionSize-1+ostar_i do
         mHeight = 0
+       -- vero = 1
         for j=ostar_i, self._regionSize-1+ostar_i do
         
         if self._table_block[i..":"..j] then
@@ -382,10 +395,16 @@ function MineFiled:createNewFiled(lv)
                 self:addChild(bl)
                 bl:setName(i..":"..j)
                 mHeight =mHeight+GRID_HEIGHT
+              --  bl:setMineNum(vero)
+
         end
 
         end
         mWidth = mWidth+GRID_WIDTH
+       
+        vero = vero +1
+       
+        
     end
     
     self._mWidth = mWidth
